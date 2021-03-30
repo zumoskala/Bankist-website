@@ -44,7 +44,6 @@ btnScrollTo.addEventListener('click', function() {
   //   s1coords.top + window.pageYOffset
   // );
 
-
   //Smooth scroll - we need to pass in an object
   // window.scrollTo({
   //   left: s1coords.left + window.pageXOffset,
@@ -57,4 +56,55 @@ btnScrollTo.addEventListener('click', function() {
 
 });
 
+// PAGE NAVIGATION
 
+//Less efficient way
+// document.querySelectorAll('.nav__link').forEach(
+//   function(el) {
+//     el.addEventListener('click', function(e) {
+//       e.preventDefault();
+//       const id = this.getAttribute('href');
+//       document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+//     });
+//   }
+// );
+
+//Better way
+
+//Event delegation
+// 1. Add event listener to common parent element (e.target mówi gdzie był wywołany event)
+// 2. Determine what element originated the event
+
+document.querySelector('.nav__links').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  // Matching strategy
+  if (e.target.classList.contains('nav__link')) {
+    const id = e.target.getAttribute('href');
+    document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+  }
+});
+
+// Tabbed component
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// event delegation - e tells us where click happened
+tabsContainer.addEventListener('click', function(e) {
+    const clicked = e.target.closest('.operations__tab');
+
+    // ignore clicks where there is no clicked elt - a GUARD CLAUSE
+    if (!clicked) return;
+
+    // active tab
+    tabs.forEach(t => t.classList.remove('operations__tab--active'));
+    clicked.classList.add('operations__tab--active');
+
+    // active content area
+    tabsContent.forEach(t => t.classList.remove('operations__content--active'));
+
+    document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
+  }
+);
