@@ -108,3 +108,63 @@ tabsContainer.addEventListener('click', function(e) {
     document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
   }
 );
+
+// Menu fade animation
+
+// container on which we will handle events
+const nav = document.querySelector('.nav');
+
+const handleHover = function(e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el != link) {
+        siblings.forEach(el => {
+          if (el !== link) el.style.opacity = this;
+        });
+        logo.style.opacity = this;
+      }
+    });
+  }
+};
+// Passing "argument" into handler - a workaround of the fact that eventhandler can only take 1 argument
+nav.addEventListener('mouseover', handleHover.bind(0.5));
+nav.addEventListener('mouseout', handleHover.bind(1));
+
+
+// BEFORE REFORMATING TO DRY PRINCIPLE
+
+// nav.addEventListener('mouseover', function(e) {
+//   if (e.target.classList.contains('nav__link')) {
+//     const link = e.target;
+//     const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+//     const logo = link.closest('.nav').querySelector('img');
+//
+//     siblings.forEach(el => {
+//         if (el != link) {
+//           el.style.opacity = 0.5;
+//         }
+//       }
+//     );
+//     logo.style.opacity = 0.5;
+//   }
+// });
+//
+// nav.addEventListener('mouseout', function(e) {
+//   if (e.target.classList.contains('nav__link')) {
+//     const link = e.target;
+//     const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+//     const logo = link.closest('.nav').querySelector('img');
+//
+//     siblings.forEach(el => {
+//         if (el != link) {
+//           el.style.opacity = 1;
+//         }
+//       }
+//     );
+//     logo.style.opacity = 1;
+//   }
+// });
