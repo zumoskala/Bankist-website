@@ -204,7 +204,7 @@ nav.addEventListener('mouseout', handleHover.bind(1));
 const header = document.querySelector('.header');
 const navHeight = nav.getBoundingClientRect().height;
 
-const stickyNav = function (entries) {
+const stickyNav = function(entries) {
   const [entry] = entries; //same as entries[0] - destructuring
   // console.log(entry);
 
@@ -215,7 +215,30 @@ const stickyNav = function (entries) {
 const headerObserver = new IntersectionObserver(stickyNav, {
   root: null, //whole viewport
   threshold: 0,
-  rootMargin: `-${navHeight}px`, //box of px applied outside of our target element
+  rootMargin: `-${navHeight}px` //box of px applied outside of our target element
 });
 
 headerObserver.observe(header);
+
+
+//REVEAL SECTIONS
+const allSections = document.querySelectorAll('.section');
+
+const revealSection = function(entries, observer) {
+  const [entry] = entries;
+
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry);
+
+};
+
+const sectionObserver = new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15
+});
+
+allSections.forEach(function(section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
