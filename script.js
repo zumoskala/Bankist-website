@@ -256,7 +256,7 @@ const loadImg = function(entries, observer) {
   entry.target.src = entry.target.dataset.src;
 
   entry.target.addEventListener('load', function() {
-    entry.target.classList.remove('lazy-img')
+    entry.target.classList.remove('lazy-img');
   });
 
   observer.unobserve(entry.target());
@@ -264,7 +264,8 @@ const loadImg = function(entries, observer) {
 
 const imgObserver = new IntersectionObserver(loadImg, {
   root: null,
-  threshold: 0
+  threshold: 0,
+  rootMargin: '200px' //ładuje się zanim użytkownik dojedzie do tego momentu
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
